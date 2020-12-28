@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: api
+  labels:
+    app: lumen
+    service: api
+    branch: master
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lumen
+      service: api
+      branch: master
+  template:
+    metadata:
+      labels:
+        app: lumen
+        service: api
+        branch: master
+    spec:
+      imagePullSecrets:
+      - name: docker-config-json
+
+      initContainers:
+      - name: migrate-database
+        imagePullPolicy: Always
+        image: fling/api:{{ api_version }}
+        command: ["sh", "-c", "php artisan migrate --force"]
+        volumeMounts:
+        - name: config-file
+          mountPath: /var/www/.env
+          subPath: .env
+
+      containers:
+      - name: web
+        imagePullPolicy: Always
+        image: fling/api:{{ api_version }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-file
+          mountPath: /var/www/.env
+          subPath: .env
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+
+      volumes:
+      - name: config-file
+        secret:
+          secretName: api-config
+          items:
+          - key: configFile
+            path: .env

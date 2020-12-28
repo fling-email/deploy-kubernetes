@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: database-init-script
+type: Opaque
+stringData:
+  sql: |
+    -- Create database and user
+    CREATE DATABASE IF NOT EXISTS api;
+    DROP USER IF EXISTS api;
+    CREATE USER api IDENTIFIED BY "secret";
+    GRANT ALL PRIVILEGES ON api.* TO api;
+
