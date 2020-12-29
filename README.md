@@ -1,5 +1,11 @@
 # Fling.email Kubernetes Deployment
 
+## Deploying
+
+```
+// TODO :)
+```
+
 ## Running Locally
 
 This is the primary method of development when working on the fling.email
