@@ -4,6 +4,8 @@
     "api_version": "latest",
     "api_app_key": "12345678123456781234567812345678",
     "api_app_debug": "true",
+    "api_database_host": "database-proxy.default.svc.cluster.local",
+    "api_database_port": "3306",
     "api_database_name": "api",
     "api_database_username": "api",
     "api_database_password": "secret"
