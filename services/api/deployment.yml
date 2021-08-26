@@ -2,29 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: api
+  name: fling-email-api
   labels:
-    app: lumen
+    app: fling-email
     service: api
-    branch: master
 
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: lumen
+      app: fling-email
       service: api
-      branch: master
   template:
     metadata:
       labels:
-        app: lumen
+        app: fling-email
         service: api
-        branch: master
     spec:
-      imagePullSecrets:
-      - name: docker-config-json
-
       initContainers:
       - name: migrate-database
         imagePullPolicy: Always
@@ -53,7 +47,7 @@ spec:
       volumes:
       - name: config-file
         secret:
-          secretName: api-config
+          secretName: fling-email-api
           items:
           - key: configFile
             path: .env
