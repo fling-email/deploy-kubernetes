@@ -22,7 +22,6 @@ spec:
     spec:
       initContainers:
         - name: migrate-database
-          imagePullPolicy: Always
           image: "flingemail/api:{{ api_version }}"
           command: ["sh", "-c", "php artisan migrate --force"]
           volumeMounts:
@@ -32,7 +31,6 @@ spec:
 
       containers:
         - name: web
-          imagePullPolicy: Always
           image: "flingemail/api:{{ api_version }}"
           ports:
             - containerPort: 80
