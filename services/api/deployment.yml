@@ -40,10 +40,12 @@ spec:
             - name: config-file
               mountPath: /var/www/.env
               subPath: .env
+          {% if environment != "local" %}
           readinessProbe:
             httpGet:
               path: /health
               port: 80
+          {% endif %}
 
       volumes:
         - name: config-file
