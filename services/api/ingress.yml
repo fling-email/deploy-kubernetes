@@ -1,18 +1,20 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 
 metadata:
-  name: fling-email-api
+  name: fling
 
 spec:
+  ingressClassName: default-ingress
   rules:
-  - host: {{ api_domain }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: fling-email-api
-            port:
-              number: 80
+    - host: "{{ api_domain }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fling-api
+                port:
+                  number: 80
