@@ -6,7 +6,6 @@ metadata:
   name: fling-api
 
 spec:
-  ingressClassName: default-ingress
   rules:
     - host: "{{ api_domain }}"
       http:
