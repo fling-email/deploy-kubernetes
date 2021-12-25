@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: fling
+  name: fling-api
   labels:
     app: fling
     service: api
@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: config-file
           secret:
-            secretName: fling
+            secretName: fling-api-config
             items:
               - key: apiEnv
                 path: .env
