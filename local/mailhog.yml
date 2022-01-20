@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8025
+      protocol: TCP
+  selector:
+    app: mailhog
+    service: smtp
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: smtp
+
+spec:
+  rules:
+    - host: smtp.fling.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: smtp
+                port:
+                  number: 8025
+
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: smtp
+  labels:
+    app: mailhog
+    service: smtp
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailhog
+      service: smtp
+  template:
+    metadata:
+      labels:
+        app: mailhog
+        service: smtp
+    spec:
+      containers:
+        - name: app
+          image: mailhog/mailhog:v1.0.1
